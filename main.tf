@@ -131,12 +131,14 @@ resource "aws_key_pair" "deployer" {
 }
 
 # Launch Configuration
-resource "aws_launch_configuration" "web" {
+resource "aws_launch_template" "web" {
   name_prefix       = "web-launch-configuration-"
   image_id          = "ami-011e54f70c1c91e17"  # Ubuntu Server 22.04 LTS (HVM), SSD Volume Type
   instance_type     = "t2.micro"
-  security_groups   = [aws_security_group.web.id]
-  iam_instance_profile = aws_iam_instance_profile.ec2_instance_profile.name
+  vpc_security_group_ids   = [aws_security_group.web.id]
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ec2_instance_profile.name
+  } 
   key_name          = aws_key_pair.deployer.key_name
 
   user_data = <<-EOF
@@ -162,7 +164,7 @@ resource "aws_launch_configuration" "web" {
 
 # Auto Scaling Group
 resource "aws_autoscaling_group" "web" {
-  launch_configuration = aws_launch_configuration.web.id
+  launch_configuration = aws_launch_template.web.id
   min_size             = 2
   max_size             = 4
   desired_capacity     = 2
@@ -179,26 +181,41 @@ resource "aws_autoscaling_group" "web" {
 }
 
 # Elastic Load Balancer
-resource "aws_elb" "web" {
-  name               = "web-elb"
+resource "aws_lb" "web" {
+  name               = "web-alb"
+  internal           = false
+  load_balancer_type = "application"
   security_groups    = [aws_security_group.web.id]
   subnets            = [aws_subnet.public_a.id, aws_subnet.public_b.id]
 
-  listener {
-    instance_port     = 80
-    instance_protocol = "HTTP"
-    lb_port           = 80
-    lb_protocol       = "HTTP"
+  enable_deletion_protection = false
+}
+
+resource "aws_lb_listener" "web" {
+  load_balancer_arn = aws_lb.web.arn
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.web.arn
   }
+}
+
+resource "aws_lb_target_group" "web" {
+  name     = "web-targets"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.main.id
 
   health_check {
-    target              = "HTTP:80/"
     interval            = 30
+    path                = "/"
     timeout             = 5
     healthy_threshold   = 2
     unhealthy_threshold = 2
+    protocol            = "HTTP"
   }
-
 }
 
 # Update the Auto Scaling Group to register instances with the ELB
