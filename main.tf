@@ -177,7 +177,7 @@ resource "aws_autoscaling_group" "web" {
   }
 
   # Attach the Auto Scaling group to the ELB
-  depends_on = [aws_elb.web]
+  depends_on = [aws_lb.web]
 }
 
 # Elastic Load Balancer
