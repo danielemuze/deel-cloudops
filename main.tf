@@ -146,11 +146,15 @@ resource "aws_launch_template" "web" {
 
 # Auto Scaling Group
 resource "aws_autoscaling_group" "web" {
-  launch_configuration = aws_launch_template.web.id
+  availability_zones = ["us-east-1a"]
   min_size             = 2
   max_size             = 4
   desired_capacity     = 2
   vpc_zone_identifier  = [aws_subnet.public_a.id, aws_subnet.public_b.id]
+  launch_template {
+    id      = aws_launch_template.web.id
+    version = "$Latest"
+  }
 
   tag {
     key                 = "Name"
