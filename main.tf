@@ -218,8 +218,8 @@ resource "aws_lb_target_group" "web" {
   }
 }
 
-# Update the Auto Scaling Group to register instances with the ELB
+# # Update the Auto Scaling Group to register instances with the LB
 resource "aws_autoscaling_attachment" "asg_attachment" {
-  autoscaling_group_name = aws_autoscaling_group.web.name
-  elb                    = aws_elb.web.name
+  autoscaling_group_name = aws_autoscaling_group.web.id
+  lb_target_group_arn    = aws_lb_target_group.web.arn
 }
