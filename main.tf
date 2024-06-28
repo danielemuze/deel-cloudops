@@ -127,7 +127,7 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
 # SSH Key Pair
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC46uOtkNHlEXBYV4K50rDmhMvLZiY0BHtz9xNb1RE72RpbfrTDZqBrYOT3oSPhaWhY66Euk669tfs9C5C/pIBIAfu1W9FAeQtTyGswuRrRqR6p5LqubKYkVq5+bmCfz4kX8XQKp9nxBPZGGqlCxvG9e/Qr+ZjXedH2Siy0JAKUS3s2tFYY3E8P+ghvBhP+v8zsP2x7GlEio+0ZYZjtfU0IEsacrlv9jp2nb7hGWnF0L6btH/s+AbOJmn133wzt"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCJhXZfxqfLCU5taYdVCs817lHSQdE+F3qtCYhN5BwEmKzgIvVX6ibSNFGT3R3/GAYbJFbra4gFAwO0PT+B5uRREGhnkaU2pzrHYwMlwrF4HHckzLnBwnlluangmxru/VFQn8+ypOm6xMp+1rn8R506KDavqnraszx9S9a42lbfAm+9kAklXeldiWy85y6X2sO+w7JS6tB9glDRtboyqmfYrDrwewaUJaSWXM/ePOzyRBgO1HnalfdPj3tLvPlPQzTC2WIgwm5NG/KKm33sJInN0aJ9zaTDW00YljzZwVlW1a3+nt2eYlKq3/1+Uoffcn+/braz6o7VFdOgHOw1cB9D deployer-key"
 }
 
 # Launch Configuration
