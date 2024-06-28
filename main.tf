@@ -146,7 +146,7 @@ resource "aws_launch_template" "web" {
 
 # Auto Scaling Group
 resource "aws_autoscaling_group" "web" {
-  availability_zones = ["us-east-1a"]
+  availability_zones = ["us-east-1"]
   min_size             = 2
   max_size             = 4
   desired_capacity     = 2
