@@ -127,7 +127,7 @@ resource "aws_iam_instance_profile" "ec2_instance_profile" {
 # SSH Key Pair
 resource "aws_key_pair" "deployer" {
   key_name   = "deployer-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC46uOtkNHlEXBYV4K50rDmhMvLZiY0BHtz9xNb1RE72RpbfrTDZqBrYOT3oSPhaWhY66Euk669tfs9C5C/pIBIAfu1W9FAeQtTyGswuRrRqR6p5LqubKYkVq5+bmCfz4kX8XQKp9nxBPZGGqlCxvG9e/Qr+ZjXedH2Siy0JAKUS3s2tFYY3E8P+ghvBhP+v8zsP2x7GlEio+0ZYZjtfU0IEsacrlv9jp2nb7hGWnF0L6btH/s+AbOJmn133wzt"
 }
 
 # Launch Configuration
