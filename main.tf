@@ -133,7 +133,7 @@ resource "aws_key_pair" "deployer" {
 # Launch Configuration
 resource "aws_launch_template" "web" {
   name_prefix       = "web-launch-configuration-"
-  image_id          = "ami-011e54f70c1c91e17"  # Ubuntu Server 22.04 LTS (HVM), SSD Volume Type
+  image_id          = "ami-0e001c9271cf7f3b9"  # Ubuntu Server 22.04 LTS (HVM), SSD Volume Type
   instance_type     = "t2.micro"
   vpc_security_group_ids   = [aws_security_group.web.id]
   iam_instance_profile {
