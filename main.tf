@@ -172,6 +172,9 @@ resource "aws_autoscaling_group" "web" {
     value               = "DockerWebApp"
     propagate_at_launch = true
   }
+
+  # Attach the Auto Scaling group to the ELB
+  depends_on = [aws_elb.web]
 }
 
 # Elastic Load Balancer
@@ -195,9 +198,10 @@ resource "aws_elb" "web" {
     unhealthy_threshold = 2
   }
 
-  instances = aws_autoscaling_group.web.instances
 }
 
-output "elb_dns_name" {
-  value = aws_elb.web.dns_name
+# Update the Auto Scaling Group to register instances with the ELB
+resource "aws_autoscaling_attachment" "asg_attachment" {
+  autoscaling_group_name = aws_autoscaling_group.web.name
+  elb                    = aws_elb.web.name
 }
